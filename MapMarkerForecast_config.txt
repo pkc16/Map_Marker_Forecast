@@ -1,0 +1,4 @@
+[Settings]
+api_key=
+output_file=C:\PythonScripts\MapMarkerForecast\MapMarkerForecast.html
+
