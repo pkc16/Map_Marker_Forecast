@@ -4,16 +4,15 @@ from timezonefinder import TimezoneFinder
 from sunnyday import Weather
 from random import uniform
 from folium import Marker
-import configparser
-import os
 
 # inherit from Marker class in folium
 class Geopoint(Marker):
 
-	def __init__(self, latitude, longitude):
+	def __init__(self, latitude, longitude, api_key):
 		super().__init__(location = [latitude, longitude])
 		self.latitude = latitude
 		self.longitude = longitude
+		self.api_key = api_key
 
 	def closest_parallel(self):
 		return round(self.latitude)
@@ -37,20 +36,7 @@ class Geopoint(Marker):
 		return time_now
 
 	def get_weather(self):
-		# get parameters from config file
-		# first get the current directory
-		cur_dir = os.path.dirname(__file__)
-
-		# generate the absolute filepath of the output file
-		config_filename = "MapMarkerForecast_config.txt"
-		config_filepath = os.path.join(cur_dir, config_filename)
-
-		# now get the info from the config file and set variables
-		parser = configparser.ConfigParser()
-		parser.read_file(open(config_filepath))
-		api_key = parser.get('Settings', 'api_key')
-
-		weather = Weather(apikey = api_key, lat = self.latitude, lon = self.longitude)
+		weather = Weather(apikey = self.api_key, lat = self.latitude, lon = self.longitude)
 		#return weather.next_12h_simplified()
 		forecast = weather.next_12h_simplified()
 

@@ -19,6 +19,7 @@ config_filepath = os.path.join(cur_dir, config_filename)
 parser = configparser.ConfigParser()
 parser.read_file(open(config_filepath))
 file_loc = parser.get('Settings', 'output_file')
+api_key = parser.get('Settings', 'api_key')
 
 # Prompt for the location
 input_location = ""
@@ -42,7 +43,7 @@ location = [latitude, longitude]
 # Create map
 mymap = Map(location = location)
 
-point = Geopoint(latitude=latitude, longitude=longitude)
+point = Geopoint(latitude=latitude, longitude=longitude, api_key=api_key)
 forecast = point.get_weather()
 #print(forecast)
 
